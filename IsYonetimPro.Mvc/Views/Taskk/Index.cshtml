@@ -1,0 +1,115 @@
+﻿@using IsYonetimPro.Shared.Utilities.Results.ComplexTypes
+@model IsYonetimPro.Entities.Dtos.TaskListDto
+@{
+    Layout = "_Layout";
+}
+@if (Model.ResultStatus == ResultStatus.Success)
+{
+
+    <div class="card mb-4 mt-2">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            İş Listesi
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="tasksTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>İş Başlığı</th>
+                            <th>İş Açıklaması</th>
+                            <td>İş Yaratılma Tarihi</td>
+                            <th>İş Başlangıç Tarihi</th>
+                            <th>İş Bitiş Tarihi</th>
+                            <th>İş Talep Eden Kişi</th>
+                            <th>İş Departman Adı</th>
+                            <th>İş Önemi</th>
+                            <th>İş Durumu</th>
+                            <th>İş Mesajı</th>
+                            <th>İşin Projesi</th>
+                            <th>İşin Ait Olduğu Çalışan</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>İş Başlığı</th>
+                            <th>İş Açıklaması</th>
+                            <td>İş Yaratılma Tarihi</td>
+                            <th>İş Başlangıç Tarihi</th>
+                            <th>İş Bitiş Tarihi</th>
+                            <th>İş Talep Eden Kişi</th>
+                            <th>İş Departman Adı</th>
+                            <th>İş Önemi</th>
+                            <th>İş Durumu</th>
+                            <th>İş Mesajı</th>
+                            <th>İşin Projesi</th>
+                            <th>İşin Ait Olduğu Çalışan</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var task in Model.Task)
+                        {
+                            <tr>
+                                <td>@task.TaskId</td>
+                                <td>@task.TaskTitle</td>
+                                <td>@task.TaskDescription</td>
+                                <td>@task.CreatedDate</td>
+                                <td>@task.TaskStartDate</td>
+                                <td>@task.TaskEndDate</td>
+                                <td>@task.CreatedBy</td>
+                                <td>@task.TaskDepartmentId</td>
+                                <td>@task.TaskImportanceId</td>
+                                <td>@task.TaskStatusId</td>
+                                <td>@task.TaskMessageId</td>
+                                <td>@task.ProjectId</td>
+                                <td>@task.EmployeeId</td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+}
+@if (Model.ResultStatus==ResultStatus.Error)
+{
+    <div class="alert alert-danger">
+        <p>Bir hata oluştu.</p>
+        <a class="alert-link" asp-controller="Home" asp-action="Index" >Geri Dön</a>
+    </div>
+}
+@section Scripts
+{
+@* DataTable *@
+    <script>
+        $(document).ready(function () {
+            $('#tasksTable').DataTable({
+                dom:
+                    "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-5'i><'col-sm-7'p>>", /*ekle yenileyi ortaya almak için,filtreyi kapatmasın diye */
+                buttons: [
+                    {
+                        text: 'Ekle',
+                        className:'btn btn-success',
+                        action: function (e, dt, node, config) {
+                            alert('Button activated');
+                        }
+                    }
+                    ,
+                    {
+                        text: 'Yenile',
+                        className: 'btn btn-warning',
+                        action: function (e, dt, node, config) {
+                            alert('Button activated');
+                        }
+                    }
+                ]});
+        });
+    </script>
+}
